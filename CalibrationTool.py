@@ -256,7 +256,7 @@ class Calibration:
         
         for i in range(0,len(compareFile)):
             if (compareFile[x1][i] != -999 and compareFile[x2][i] != -999 
-                and compareFile[y1][i] != -99 and compareFile[y2][i] != -99
+                and compareFile[y1][i] != -99 
                 and compareFile[x1err][i] < np.mean(compareFile.loc[compareFile[x1err] != -999, [x1err]]).item()
                 and compareFile[x2err][i] < np.mean(compareFile.loc[compareFile[x2err] != -999, [x2err]]).item()
                 #and abs(compareFile[x1][i] - compareFile[y1][i]) < 1.5 ## a rough idea of a sigma cut 
@@ -264,6 +264,20 @@ class Calibration:
                 
                 xplotvals.append(compareFile[x1][i] - compareFile[x2][i])
                 yplotvals.append(compareFile[y1][i])
-
+                
+        ## make the HR diagram variant
+        if yAxis == 'g':
+            pltcolor = 'g'
+        if yAxis == 'r':
+            pltcolor = 'r'
+        if yAxis == 'i':
+            pltcolor = 'b'
+        if yAxis == 'z':
+            pltcolor = 'purple'
+        
+        plt.plot(xplotvals,yplotvals,'.',color=pltcolor,alpha=0.1)
+        plt.xlabel('%s %s - %s' % (otherSystem, x1, x2))
+        plt.ylabel('%s %s' % (otherSystem, y1))
+        plt.tight_layout()
 
 
